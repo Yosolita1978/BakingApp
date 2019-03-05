@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">BakingApp</string>
+
+    <!-- Content descriptions-->
+    <string name="recipe_picture_content_description">Recipe picture</string>
+    <string name="recipe_name_content_description">Recipe Name</string>
+    <string name="recipe_servings_content_description">A number</string>
+    <string name="recipe_servings_label_description">Servings: </string>
+
+    <!-- Error messages-->
+    <string name="detail_error_message">Recipes data not available</string>
+
 </resources>
