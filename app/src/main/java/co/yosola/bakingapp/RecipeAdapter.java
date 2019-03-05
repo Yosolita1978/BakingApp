@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,23 +22,23 @@ import co.yosola.bakingapp.Model.Recipe;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.CustomViewHolder> {
 
 
-    final private ListItemClickListener mListItemClickListener;
+    private OnItemClickListener onItemClickListener;
 
     private ArrayList<Recipe> mRecipesList;
     private Context mContext;
 
 
     //Interface for the Adapter
-    public interface ListItemClickListener {
+    public interface OnItemClickListener {
 
-        void onListItemClick(Recipe recipe);
+        void onItemClick(Recipe recipe);
 
     }
 
 
-    public RecipeAdapter(ArrayList<Recipe> recipes, ListItemClickListener listItemClickListener) {
+    public RecipeAdapter(Context context, ArrayList<Recipe> recipes) {
         this.mRecipesList = recipes;
-        this.mListItemClickListener = listItemClickListener;
+        this.mContext = context;
     }
 
     @Override
@@ -60,6 +61,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.CustomView
                     .placeholder(R.drawable.recipedefault)
                     .into(customViewHolder.imageView);
         }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onItemClick(recipeItem);
+            }
+        };
 
         //Setting text view name and servings
         customViewHolder.nameTextView.setText(recipeItem.getName());
@@ -86,15 +94,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.CustomView
             this.servingsTextView = (TextView) itemView.findViewById(R.id.recipe_servings_content);
         }
 
-        public void bind(final Recipe recipe, final ListItemClickListener listener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onListItemClick(recipe);
-                }
-            });
-        }
+    }
 
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
 

@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import timber.log.Timber;
+
 public class MainActivity extends AppCompatActivity {
 
     public static boolean isTablet = false;
@@ -13,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set up Timber
+        Timber.plant(new Timber.DebugTree());
 
         if (savedInstanceState == null) {
             if (findViewById(R.id.tablet_view) != null) {

@@ -1,8 +1,10 @@
 package co.yosola.bakingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,22 +18,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import java.net.URL;
 import java.util.ArrayList;
 
-import co.yosola.bakingapp.DownloadAsyncTask.AsyncListner;
 import co.yosola.bakingapp.Model.Recipe;
 import co.yosola.bakingapp.Utils.NetworkUtils;
 import timber.log.Timber;
 
-public class MainFragment extends Fragment implements AsyncListner {
+public class MainFragment extends Fragment {
 
     RecyclerView mRecyclerView;
 
     private RecipeAdapter mRecipeAdapter;
     private URL url;
+    private ArrayList<Recipe> recipeList;
 
-    public static ArrayList<Recipe> recipeList;
 
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
@@ -47,21 +50,30 @@ public class MainFragment extends Fragment implements AsyncListner {
         mLoadingIndicator = rootView.findViewById(R.id.progress_bar);
         mRecyclerView = rootView.findViewById(R.id.list);
 
-        //Check the internet acces
+        //Check the internet access
         if (isOnline()) {
 
             RecyclerView.LayoutManager manager;
             if (MainActivity.isTablet) {
                 manager = new GridLayoutManager(getActivity(), 2);
+                Timber.d(String.valueOf(MainActivity.isTablet));
             } else {
                 manager = new LinearLayoutManager(getActivity());
+                Timber.d(String.valueOf(MainActivity.isTablet));
             }
 
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.setHasFixedSize(true);
+
+            //initialize adapter and set to the recycler view object
+            recipeList = new ArrayList<>();
+            mRecipeAdapter = new RecipeAdapter(getActivity(), recipeList);
+            mRecyclerView.setAdapter(mRecipeAdapter);
+
+
             url = NetworkUtils.buildURl();
-            new DownloadAsyncTask(this).execute(url);
-            Timber.d(String.valueOf(MainActivity.isTablet));
+            new DownloadDataTask().execute(url);
+
         } else {
             showErrorMessage();
             mErrorMessageDisplay.setText(R.string.detail_error_message);
@@ -79,6 +91,7 @@ public class MainFragment extends Fragment implements AsyncListner {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+
     //The method for show the error message
     private void showErrorMessage() {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
@@ -86,33 +99,53 @@ public class MainFragment extends Fragment implements AsyncListner {
     }
 
 
-    @Override
-    public void returnRecipe(ArrayList<Recipe> recipes) {
+    //AsyncTask to fetch the data in a different thread
+    public class DownloadDataTask extends AsyncTask<URL, Void, ArrayList<Recipe>> {
 
-        mRecipeAdapter = new RecipeAdapter(recipes, new RecipeAdapter.ListItemClickListener() {
-            @Override
-            public void onListItemClick(Recipe recepie) {
-                Toast.makeText(getActivity(), recepie.getName(), Toast.LENGTH_LONG).show();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected ArrayList<Recipe> doInBackground(URL... urls) {
+            final URL mUrl;
+            recipeList = null;
+
+            if (urls.length == 0) {
+                mUrl = NetworkUtils.buildURl();;
+            } else{
+                mUrl = urls[0];
             }
-        });
 
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
-        mRecyclerView.setAdapter(mRecipeAdapter);
-        mRecipeAdapter.notifyDataSetChanged();
-        recipeList = recipes;
+            try {
+                recipeList = NetworkUtils.fetchRecipeData(mUrl);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return recipeList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Recipe> recipes) {
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            if (recipes != null) {
+                mRecipeAdapter = new RecipeAdapter(getContext(), recipes);
+                mRecyclerView.setAdapter(mRecipeAdapter);
+                mRecipeAdapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Recipe recipe) {
+                        Toast.makeText(getContext(), recipe.getName(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                showErrorMessage();
+                Toast.makeText(getContext(), "Failed to fetch data!", Toast.LENGTH_LONG).show();
+            }
+        }
     }
-
-    @Override
-    public void onRefresh() {
-        mLoadingIndicator.setVisibility(View.VISIBLE);
-        downloadRecipe();
-    }
-
-
-    private void downloadRecipe() {
-        new DownloadAsyncTask(this).execute(url);
-        mRecipeAdapter.notifyDataSetChanged();
-    }
-
 
 }
