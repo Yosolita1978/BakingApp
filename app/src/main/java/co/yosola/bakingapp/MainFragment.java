@@ -23,6 +23,7 @@ import org.json.JSONException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import co.yosola.bakingapp.Adapters.RecipeAdapter;
 import co.yosola.bakingapp.Model.Recipe;
 import co.yosola.bakingapp.Utils.NetworkUtils;
 import timber.log.Timber;
@@ -105,6 +106,9 @@ public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapt
     public void onClick(Recipe recipe) {
         //Timber.d(String.valueOf(recipe.getName()));
         Toast.makeText(getContext(), recipe.getName(), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("Recipe", recipe);
+        startActivity(intent);
 
     }
 

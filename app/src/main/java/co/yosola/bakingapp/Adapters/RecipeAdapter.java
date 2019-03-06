@@ -1,4 +1,4 @@
-package co.yosola.bakingapp;
+package co.yosola.bakingapp.Adapters;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
@@ -10,14 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import co.yosola.bakingapp.Model.Recipe;
-import timber.log.Timber;
+import co.yosola.bakingapp.R;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder> {
 
