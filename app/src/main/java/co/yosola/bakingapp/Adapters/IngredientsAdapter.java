@@ -6,13 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import co.yosola.bakingapp.Model.Ingredients;
-import co.yosola.bakingapp.Model.Recipe;
 import co.yosola.bakingapp.R;
 
 //This adapter doesn't need a OnClick method.
@@ -50,6 +48,7 @@ public IngredientsAdapter(ArrayList<Ingredients> ingredientsList,Context context
         holder.nameText.setText(ingredientsView.getIngredient());
         holder.quantityText.setText(ingredientsView.getQuantity());
         holder.measureText.setText(ingredientsView.getMeasure());
+        holder.measureText.setAllCaps(false);
 
     }
 

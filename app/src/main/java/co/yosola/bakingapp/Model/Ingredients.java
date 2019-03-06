@@ -29,8 +29,8 @@ public class Ingredients implements Parcelable {
 
     public Ingredients(String quantity, String measure, String ingredient) {
         this.quantity = quantity;
-        this.measure = measure;
-        this.ingredient = ingredient;
+        this.measure = measure.toLowerCase();
+        this.ingredient = ingredient.toUpperCase();
     }
 
     public String getQuantity() {
