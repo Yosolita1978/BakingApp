@@ -13,6 +13,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     Recipe recipe;
     private Context context;
+    public boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +32,23 @@ public class DetailsActivity extends AppCompatActivity {
         Bundle ingredientsBundle = new Bundle();
         ingredientsBundle.putParcelable("Recipe", recipe);
 
-        //Pass Over the bundle to the Ingredients Fragment
-        IngredientsFragment ingredientsFragment = new IngredientsFragment();
-        ingredientsFragment.setArguments(ingredientsBundle);
+        if(findViewById(R.id.tablet_layout) != null){
+            isTablet = true;
+            //Pass Over the bundle to the Ingredients Fragment
+            IngredientsFragment ingredientsFragment = new IngredientsFragment();
+            ingredientsFragment.setArguments(ingredientsBundle);
 
-        fragmentManager.beginTransaction().replace(R.id.ingredients_fragment_container, ingredientsFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.ingredients_tablet_fragment_container, ingredientsFragment).commit();
+
+        } else {
+            isTablet = false;
+            //Pass Over the bundle to the Ingredients Fragment
+            IngredientsFragment ingredientsFragment = new IngredientsFragment();
+            ingredientsFragment.setArguments(ingredientsBundle);
+
+            fragmentManager.beginTransaction().replace(R.id.ingredients_fragment_container, ingredientsFragment).commit();
+
+        }
 
     }
 }
