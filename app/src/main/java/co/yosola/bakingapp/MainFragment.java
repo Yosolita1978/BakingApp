@@ -27,17 +27,16 @@ import co.yosola.bakingapp.Model.Recipe;
 import co.yosola.bakingapp.Utils.NetworkUtils;
 import timber.log.Timber;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapterOnClickHandler {
 
     RecyclerView mRecyclerView;
 
     private RecipeAdapter mRecipeAdapter;
     private URL url;
     private ArrayList<Recipe> recipeList;
-
-
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
+
 
     public MainFragment() {
     }
@@ -50,34 +49,29 @@ public class MainFragment extends Fragment {
         mLoadingIndicator = rootView.findViewById(R.id.progress_bar);
         mRecyclerView = rootView.findViewById(R.id.list);
 
-        //Check the internet access
-        if (isOnline()) {
-
-            RecyclerView.LayoutManager manager;
-            if (MainActivity.isTablet) {
-                manager = new GridLayoutManager(getActivity(), 2);
-                Timber.d(String.valueOf(MainActivity.isTablet));
-            } else {
-                manager = new LinearLayoutManager(getActivity());
-                Timber.d(String.valueOf(MainActivity.isTablet));
-            }
-
-            mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.setHasFixedSize(true);
-
-            //initialize adapter and set to the recycler view object
-            recipeList = new ArrayList<>();
-            mRecipeAdapter = new RecipeAdapter(getActivity(), recipeList);
-            mRecyclerView.setAdapter(mRecipeAdapter);
-
-
-            url = NetworkUtils.buildURl();
-            new DownloadDataTask().execute(url);
-
+        if(MainActivity.isTablet){
+            GridLayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
+            mRecyclerView.setLayoutManager(mGridLayoutManager);
+            mRecyclerView.setHasFixedSize(true);;
+            Timber.d(String.valueOf(MainActivity.isTablet));
         } else {
+            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(mLinearLayoutManager);
+            Timber.d(String.valueOf(MainActivity.isTablet));
+        }
+
+        //initialize adapter and set to the recycler view object
+        recipeList = new ArrayList<>();
+        mRecipeAdapter = new RecipeAdapter(recipeList, this, getContext());
+        mRecyclerView.setAdapter(mRecipeAdapter);
+
+        if(!isOnline()){
             showErrorMessage();
             mErrorMessageDisplay.setText(R.string.detail_error_message);
         }
+
+        url = NetworkUtils.buildURl();
+        new DownloadDataTask().execute(url);
 
         return rootView;
 
@@ -96,6 +90,22 @@ public class MainFragment extends Fragment {
     private void showErrorMessage() {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
+
+    //Bring the Json and bind it with the adapter
+    private void showData(ArrayList<Recipe> recipes) {
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        recipeList = recipes;
+        mRecipeAdapter.setData(recipes);
+    }
+
+    @Override
+    public void onClick(Recipe recipe) {
+        //Timber.d(String.valueOf(recipe.getName()));
+        Toast.makeText(getContext(), recipe.getName(), Toast.LENGTH_LONG).show();
+
     }
 
 
@@ -131,16 +141,13 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Recipe> recipes) {
+            mErrorMessageDisplay.setVisibility(View.GONE);
             mLoadingIndicator.setVisibility(View.INVISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
             if (recipes != null) {
-                mRecipeAdapter = new RecipeAdapter(getContext(), recipes);
-                mRecyclerView.setAdapter(mRecipeAdapter);
-                mRecipeAdapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Recipe recipe) {
-                        Toast.makeText(getContext(), recipe.getName(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                super.onPostExecute(recipes);
+                showData(recipes);
+                Timber.d(String.valueOf(recipes.size()));
             } else {
                 showErrorMessage();
                 Toast.makeText(getContext(), "Failed to fetch data!", Toast.LENGTH_LONG).show();

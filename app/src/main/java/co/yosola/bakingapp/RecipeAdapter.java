@@ -5,105 +5,122 @@ package co.yosola.bakingapp;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import co.yosola.bakingapp.Model.Recipe;
+import timber.log.Timber;
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.CustomViewHolder> {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeAdapterViewHolder> {
 
-
-    private OnItemClickListener onItemClickListener;
 
     private ArrayList<Recipe> mRecipesList;
     private Context mContext;
 
 
-    //Interface for the Adapter
-    public interface OnItemClickListener {
+    //I need this to set the ListitemClickLister;
+    private RecipesAdapterOnClickHandler mRecipeClickHandler;
 
-        void onItemClick(Recipe recipe);
 
+    public interface RecipesAdapterOnClickHandler
+    {
+        void onClick(Recipe recipe);
     }
 
 
-    public RecipeAdapter(Context context, ArrayList<Recipe> recipes) {
+    public RecipeAdapter(ArrayList<Recipe> recipes, RecipesAdapterOnClickHandler recipeClickHandler, Context context) {
         this.mRecipesList = recipes;
+        this.mRecipeClickHandler = recipeClickHandler;
         this.mContext = context;
     }
 
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_list_item, null);
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
+    public RecipeAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        mContext = viewGroup.getContext();
+        int layoutIdForListItem = R.layout.recipe_list_item;
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        boolean shouldAttachToParentImmediately = false;
+
+        View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+        RecipeAdapterViewHolder viewHolder = new RecipeAdapterViewHolder(view);
+
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
+    public void onBindViewHolder(RecipeAdapterViewHolder holder, int i) {
         final Recipe recipeItem = mRecipesList.get(i);
 
         //Download image using picasso library
         if (recipeItem.getImage().isEmpty()) {
-            customViewHolder.imageView.setImageResource(R.drawable.recipedefault);
+            holder.imageView.setImageResource(R.drawable.recipedefault);
 
         } else {
             Picasso.get().load(recipeItem.getImage())
                     .placeholder(R.drawable.recipedefault)
-                    .into(customViewHolder.imageView);
+                    .into(holder.imageView);
         }
 
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemClickListener.onItemClick(recipeItem);
-            }
-        };
-
         //Setting text view name and servings
-        customViewHolder.nameTextView.setText(recipeItem.getName());
-        customViewHolder.servingsTextView.setText(recipeItem.getServings());
+        holder.nameTextView.setText(recipeItem.getName());
+        holder.servingsTextView.setText(recipeItem.getServings());
 
     }
 
     @Override
     public int getItemCount() {
-        return (null != mRecipesList ? mRecipesList.size() : 0);
+        if (mRecipesList == null) {
+            return 0;
+        } else {
+            return mRecipesList.size();
+        }
+    }
+
+    public void setData(ArrayList<Recipe> recipes) {
+        if (this.mRecipesList != null) {
+            this.mRecipesList.clear();
+        }
+        this.mRecipesList = recipes;
+        notifyDataSetChanged();
     }
 
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder{
+    public void clear() {
+        mRecipesList.clear();
+    }
+
+
+    public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView imageView;
         TextView nameTextView;
         TextView servingsTextView;
 
-        public CustomViewHolder(View itemView) {
+        public RecipeAdapterViewHolder(View itemView) {
             super(itemView);
             this.imageView = (ImageView) itemView.findViewById(R.id.recipe_image);
             this.nameTextView = (TextView) itemView.findViewById(R.id.recipe_name);
             this.servingsTextView = (TextView) itemView.findViewById(R.id.recipe_servings_content);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = getAdapterPosition();
+            Recipe recipe = mRecipesList.get(adapterPosition);
+            mRecipeClickHandler.onClick(recipe);
+            //Timber.d(recipe.getName() + "inside the adapter");
         }
 
     }
-
-    public OnItemClickListener getOnItemClickListener() {
-        return onItemClickListener;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
 
 
 }
