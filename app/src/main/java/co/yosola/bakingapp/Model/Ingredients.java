@@ -3,9 +3,6 @@ package co.yosola.bakingapp.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /*
  * Created by Cristina on 04/03/2019.
  */
@@ -15,17 +12,6 @@ public class Ingredients implements Parcelable {
     private String quantity;
     private String measure;
     private String ingredient;
-
-    public Ingredients(JSONObject ingredientsObj){
-        try {
-            this.quantity=ingredientsObj.getString("quantity");
-            this.measure=ingredientsObj.getString("measure");
-            this.ingredient=ingredientsObj.getString("ingredient");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Ingredients(String quantity, String measure, String ingredient) {
         this.quantity = quantity;

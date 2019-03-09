@@ -105,7 +105,7 @@ public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapt
     @Override
     public void onClick(Recipe recipe) {
         //Timber.d(String.valueOf(recipe.getName()));
-        Toast.makeText(getContext(), recipe.getName(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), recipe.getName(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.putExtra("Recipe", recipe);
         startActivity(intent);
@@ -151,7 +151,7 @@ public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapt
             if (recipes != null) {
                 super.onPostExecute(recipes);
                 showData(recipes);
-                Timber.d(String.valueOf(recipes.size()));
+                //Timber.d(String.valueOf(recipes.size()));
             } else {
                 showErrorMessage();
                 Toast.makeText(getContext(), "Failed to fetch data!", Toast.LENGTH_LONG).show();

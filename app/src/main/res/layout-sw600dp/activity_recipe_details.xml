@@ -32,5 +32,19 @@
 
         </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/steps_tablet_fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_10dp"
+            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:layout_marginEnd="@dimen/dimen_40dp"
+            android:layout_marginRight="@dimen/dimen_40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ingredients_tablet_fragment_container"
+            app:layout_constraintVertical_weight="0.4">
+
+        </FrameLayout>
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
