@@ -8,6 +8,7 @@
     <string name="recipe_servings_label_description">Servings: </string>
     <string name="ingredients">Ingredients</string>
     <string name="steps_label">Steps</string>
+    <string name="steps_number">1</string>
 
     <!-- Error messages-->
     <string name="detail_error_message">Recipes data not available</string>

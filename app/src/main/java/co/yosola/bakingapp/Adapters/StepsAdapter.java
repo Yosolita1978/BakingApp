@@ -58,6 +58,11 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
         //Setting text view name
         holder.nameTextView.setText(stepRow.getShortDescription());
 
+        int stepId = Integer.valueOf(stepRow.getId());
+        int stepnumber = stepId + 1;
+        String stepNumber = String.valueOf(stepnumber);
+
+        holder.numberTextView.setText(stepNumber);
 
     }
 
@@ -87,10 +92,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
     public class StepsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView nameTextView;
+        TextView numberTextView;
 
         public StepsAdapterViewHolder(View itemView) {
             super(itemView);
             this.nameTextView = (TextView) itemView.findViewById(R.id.step_name);
+            this.numberTextView = (TextView) itemView.findViewById(R.id.step_number);
             itemView.setOnClickListener(this);
         }
 
