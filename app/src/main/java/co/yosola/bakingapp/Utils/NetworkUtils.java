@@ -142,9 +142,7 @@ public class NetworkUtils {
 
                 //Creating Step New Instance
                 Steps stepsObj = new Steps(stepsId, stepsSdescrp, stepsDescrp, stepsVpath, stepsThumnail);
-                Timber.d(stepsObj.getShortDescription());
-                Timber.d(stepsObj.getVideoURL());
-                Timber.d(stepsObj.getThumbnailURL());
+                //Timber.d(stepsObj.getShortDescription());
 
                 stepsList.add(stepsObj);
             }

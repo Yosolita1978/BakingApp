@@ -18,5 +18,10 @@
     <string name="ingredient_measure">cup</string>
     <string name="ingredient_name">Nutella</string>
 
+    <!-- Steps Video descriptions-->
+    <string name="steps_instructions_label">Instructions</string>
+    <string name="previous_step">Previous</string>
+    <string name="next_step">Next</string>
+
 
 </resources>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -74,7 +75,24 @@ public class DetailsActivity extends AppCompatActivity implements StepsFragment.
 
     @Override
     public void onClick(Steps step) {
+        if (isTablet) {
+            Bundle stepsVideoBundle = new Bundle();
+            stepsVideoBundle.putParcelable("StepOnClick", step);
+            stepsVideoBundle.putBoolean("isTablet", isTablet);
+            stepsVideoBundle.putParcelable("Recipe", recipe);
 
+            ExoPlayerFragment expoFragment = new ExoPlayerFragment();
+            expoFragment.setArguments(stepsVideoBundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.expovideo_tablet_fragment, expoFragment).commit();
+        }
+        else {
+
+            Intent intent = new Intent(DetailsActivity.this, ExoPlayerActivity.class);
+            intent.putExtra("StepOnClick", step);
+            intent.putExtra("isTablet", isTablet);
+            intent.putExtra("Recipe", recipe);
+            startActivity(intent);
+        }
     }
 }
 

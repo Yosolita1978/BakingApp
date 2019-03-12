@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/playerview"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:layout_marginStart="@dimen/dimen_40dp"
+        android:layout_marginEnd="@dimen/dimen_40dp" />
+
+    <ImageView
+        android:id="@+id/thumbnail_url"
+        android:contentDescription="@string/steps_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playerview"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/step_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:layout_marginStart="@dimen/dimen_50dp"
+        android:layout_marginEnd="@dimen/dimen_50dp"
+        android:layout_below="@id/thumbnail_url"
+        android:text="@string/steps_instructions_label" />
+
+    <Button
+        android:id="@+id/previous_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_30dp"
+        android:layout_marginStart="@dimen/dimen_50dp"
+        android:layout_marginLeft="@dimen/dimen_50dp"
+        android:layout_below="@id/step_description"
+        android:focusable="false"
+        android:text="@string/previous_step" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_30dp"
+        android:layout_marginStart="@dimen/dimen_50dp"
+        android:layout_marginLeft="@dimen/dimen_50dp"
+        android:layout_below="@id/step_description"
+        android:layout_toEndOf="@id/previous_button"
+        android:layout_toRightOf="@id/previous_button"
+        android:focusable="false"
+        android:text="@string/next_step" />
+
+</RelativeLayout>

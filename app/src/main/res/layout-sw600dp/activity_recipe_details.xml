@@ -33,13 +33,30 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/expovideo_tablet_fragment"
+            android:layout_width="@dimen/exoplayer_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_50dp"
+            android:layout_marginLeft="@dimen/dimen_50dp"
+            android:layout_marginEnd="@dimen/dimen_10dp"
+            android:layout_marginRight="@dimen/dimen_10dp"
+            android:layout_marginTop="@dimen/dimen_70dp"
+            app:layout_constraintStart_toEndOf="@+id/ingredients_tablet_fragment_container"
+            app:layout_constraintBottom_toTopOf="@+id/steps_tablet_fragment_container"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_weight="0.4">
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/steps_tablet_fragment_container"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_10dp"
             android:layout_marginLeft="@dimen/dimen_10dp"
-            android:layout_marginEnd="@dimen/dimen_40dp"
-            android:layout_marginRight="@dimen/dimen_40dp"
+            android:layout_marginEnd="@dimen/dimen_80dp"
+            android:layout_marginRight="@dimen/dimen_80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ingredients_tablet_fragment_container"
             app:layout_constraintVertical_weight="0.4">

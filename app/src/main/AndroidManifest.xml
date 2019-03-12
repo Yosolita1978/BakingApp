@@ -16,6 +16,7 @@
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -28,6 +29,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.yosola.bakingapp.MainActivity" />
+        </activity>
+
+        <activity
+            android:name="co.yosola.bakingapp.ExoPlayerActivity"
+            android:parentActivityName="co.yosola.bakingapp.DetailsActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.yosola.bakingapp.DetailsActivity" />
         </activity>
     </application>
 
