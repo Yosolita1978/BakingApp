@@ -12,13 +12,6 @@
         android:layout_marginStart="@dimen/dimen_40dp"
         android:layout_marginEnd="@dimen/dimen_40dp" />
 
-    <ImageView
-        android:id="@+id/thumbnail_url"
-        android:contentDescription="@string/steps_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/playerview"
-        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/thumbnail"
@@ -37,7 +30,7 @@
         android:layout_marginTop="@dimen/dimen_16dp"
         android:layout_marginStart="@dimen/dimen_50dp"
         android:layout_marginEnd="@dimen/dimen_50dp"
-        android:layout_below="@id/thumbnail_url"
+        android:layout_below="@id/playerview"
         android:textSize="@dimen/font_medium"
         android:textColor="@color/textOnAccent"
         android:text="@string/steps_instructions_label" />

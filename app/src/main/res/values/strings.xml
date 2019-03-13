@@ -22,6 +22,11 @@
     <string name="steps_instructions_label">Instructions</string>
     <string name="previous_step">Previous</string>
     <string name="next_step">Next</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <!-- Widget-->
+    <string name="empty_view">Empty view</string>
 
 
 </resources>

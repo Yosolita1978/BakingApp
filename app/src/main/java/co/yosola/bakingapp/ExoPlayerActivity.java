@@ -19,6 +19,8 @@ public class ExoPlayerActivity extends AppCompatActivity {
     public ExoPlayerFragment exoPlayerFragment;
     private Steps stepClicked;
     private Recipe recipe;
+    public static final String STEPS_LIST = "list";
+    public static final String KEY_EXPO_FRAGMENT = "expoFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class ExoPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exoplayervideo);
 
 
+        if(savedInstanceState == null){
         FragmentManager fragmentManager = getSupportFragmentManager();
         exoPlayerFragment = new ExoPlayerFragment();
         Intent intent = getIntent();
@@ -48,6 +51,18 @@ public class ExoPlayerActivity extends AppCompatActivity {
             exoPlayerFragment.setArguments(bundle);
             fragmentManager.beginTransaction().replace(R.id.expovideo_fragment, exoPlayerFragment).commit();
         }
+        } else {
+            stepsArrayList = savedInstanceState.getParcelableArrayList(STEPS_LIST);
+            exoPlayerFragment = (ExoPlayerFragment) getSupportFragmentManager().getFragment(savedInstanceState,KEY_EXPO_FRAGMENT);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putParcelableArrayList(STEPS_LIST, stepsArrayList);
+        getSupportFragmentManager().putFragment(outState,KEY_EXPO_FRAGMENT, exoPlayerFragment);
+        super.onSaveInstanceState(outState);
     }
 
 }

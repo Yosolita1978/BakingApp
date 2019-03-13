@@ -12,8 +12,19 @@
         android:roundIcon="@mipmap/ic_launcher_tools_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:launchMode="singleTop" >
+        <receiver android:name="Widget.RecipeWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recipe_widget_provider_info" />
+        </receiver>
+
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -21,20 +32,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="co.yosola.bakingapp.DetailsActivity"
-            android:parentActivityName="co.yosola.bakingapp.MainActivity"
-            android:launchMode="singleTop" >
+            android:name=".DetailsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.yosola.bakingapp.MainActivity" />
         </activity>
-
         <activity
-            android:name="co.yosola.bakingapp.ExoPlayerActivity"
-            android:parentActivityName="co.yosola.bakingapp.DetailsActivity"
-            >
+            android:name=".ExoPlayerActivity"
+            android:parentActivityName=".DetailsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.yosola.bakingapp.DetailsActivity" />

@@ -40,7 +40,6 @@ public class ExoPlayerFragment extends Fragment {
     Recipe recipe;
     SimpleExoPlayer mExoPlayer;
     SimpleExoPlayerView mPlayerView;
-    ImageView thumbnailUrlImage;
     ImageView thumbnail;
     public int stepIndex;
     private long mPlayerPosition;
@@ -70,7 +69,6 @@ public class ExoPlayerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_exoplayervideo, container, false);
         // Bind the views
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.playerview);
-        thumbnailUrlImage = (ImageView) rootView.findViewById(R.id.thumbnail_url);
         thumbnail = (ImageView) rootView.findViewById(R.id.thumbnail);
         previousButton = (Button) rootView.findViewById(R.id.previous_button);
         nextButton = (Button) rootView.findViewById(R.id.next_button);
@@ -103,9 +101,6 @@ public class ExoPlayerFragment extends Fragment {
 
                 stepDescription.setText(stepStringDescription);
 
-                if (thumbnailUrl != null) {
-                    thumbnailUrlImage.setVisibility(View.INVISIBLE);
-                }
                 toggleButtons(isTablet);
                 nextButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -196,12 +191,10 @@ public class ExoPlayerFragment extends Fragment {
     public void checkThumbnail(Uri videoUrl){
         if(videoUrl == null || String.valueOf(videoUrl).isEmpty()){
             mPlayerView.setVisibility(View.INVISIBLE);
-            thumbnailUrlImage.setVisibility(View.INVISIBLE);
             thumbnail.setVisibility(View.VISIBLE);
             thumbnail.setImageDrawable(getResources().getDrawable(R.drawable.nosignal));
         } else {
             mPlayerView.setVisibility(View.VISIBLE);
-            thumbnailUrlImage.setVisibility(View.VISIBLE);
             thumbnail.setVisibility(View.INVISIBLE);
         }
 

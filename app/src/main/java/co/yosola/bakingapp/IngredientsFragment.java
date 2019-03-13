@@ -1,6 +1,11 @@
 package co.yosola.bakingapp;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
+import Widget.RecipeWidgetProvider;
 import co.yosola.bakingapp.Adapters.IngredientsAdapter;
 import co.yosola.bakingapp.Model.Ingredients;
 import co.yosola.bakingapp.Model.Recipe;
