@@ -20,6 +20,16 @@
         android:layout_below="@id/playerview"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:contentDescription="@string/steps_label"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/nosignal"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:visibility="invisible" />
+
     <TextView
         android:id="@+id/step_description"
         android:layout_width="wrap_content"
@@ -28,6 +38,8 @@
         android:layout_marginStart="@dimen/dimen_50dp"
         android:layout_marginEnd="@dimen/dimen_50dp"
         android:layout_below="@id/thumbnail_url"
+        android:textSize="@dimen/font_medium"
+        android:textColor="@color/textOnAccent"
         android:text="@string/steps_instructions_label" />
 
     <Button

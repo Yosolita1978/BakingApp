@@ -13,9 +13,6 @@ import timber.log.Timber;
 
 public class ExoPlayerActivity extends AppCompatActivity {
 
-
-    public static final String STEPS_LIST = "steps_list";
-    public static final String KEY_EXOPLAYER = "exoplayer";
     public boolean isTablet;
     public int stepIndex;
     public ArrayList<Steps> stepsArrayList;
