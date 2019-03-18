@@ -22,6 +22,7 @@ import Widget.RecipeWidgetProvider;
 import co.yosola.bakingapp.Adapters.IngredientsAdapter;
 import co.yosola.bakingapp.Model.Ingredients;
 import co.yosola.bakingapp.Model.Recipe;
+import co.yosola.bakingapp.Utils.Constants;
 import timber.log.Timber;
 
 
@@ -73,6 +74,21 @@ public class IngredientsFragment extends Fragment {
 
             IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(ingredientsList, getContext());
             mIngredientRecyclerView.setAdapter(ingredientsAdapter);
+
+            //Store Ingredients in SharedPreferences
+            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences((getActivity()).getApplicationContext());
+            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+
+            Gson gson = new Gson();
+            String json = gson.toJson(ingredientsList);
+            prefsEditor.putString("IngredientsList_Widget", json);
+            prefsEditor.apply();
+
+            Context context = getActivity().getApplicationContext();
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            ComponentName thisWidget = new ComponentName(context, RecipeWidgetProvider.class);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.appwidget_list);
 
         }
         return rootView;

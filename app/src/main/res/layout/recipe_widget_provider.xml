@@ -4,11 +4,11 @@
     android:padding="9dp"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/widget_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/recipedefault" />
+    <ListView
+        android:id="@+id/appwidget_list"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="#09C"
+        android:gravity="center" />
 
 </LinearLayout>
