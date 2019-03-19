@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="9dp"
+    android:padding="@dimen/widget_margin"
     android:orientation="vertical">
 
     <ListView
@@ -9,6 +10,16 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:background="#09C"
-        android:gravity="center" />
+        android:gravity="center"
+        tools:listitem="@layout/ingredient_list_item"/>
+
+    <TextView
+        android:id="@+id/empty_widget_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/add_a_receipe_to_widget"
+        android:textColor="#000"
+        android:textSize="24sp" />
 
 </LinearLayout>

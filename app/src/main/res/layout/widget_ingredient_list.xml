@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="3">
+
+        <TextView
+            android:id="@+id/widget_ingredient_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_8dp"
+            android:layout_marginLeft="@dimen/dimen_8dp"
+            android:layout_weight="1"
+            android:padding="@dimen/dimen_8dp"
+            android:textColor="@color/textOnAccent"
+            android:textSize="@dimen/font_small"
+            tools:text="@string/ingredient_name"/>
+
+        <TextView
+            android:id="@+id/widget_ingredient_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textOnAccent"
+            android:textSize="@dimen/font_small"
+            tools:text="@string/ingredient_quantity" />
+
+        <TextView
+            android:id="@+id/widget_ingredient_measure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_4dp"
+            android:textColor="@color/textOnAccent"
+            android:textSize="@dimen/font_small"
+            tools:text="@string/ingredient_measure" />
+
+</LinearLayout>

@@ -6,12 +6,15 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import co.yosola.bakingapp.DetailsActivity;
 import co.yosola.bakingapp.MainActivity;
 import co.yosola.bakingapp.R;
+import co.yosola.bakingapp.Utils.Constants;
 import timber.log.Timber;
 
 /**
@@ -19,42 +22,50 @@ import timber.log.Timber;
  */
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
+    public static final String ACTION_VIEW_DETAILS =
+            "co.yosola.bakingapp.RecipeWidgetProvider.ACTION_VIEW_DETAILS";
+
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
+        for (int i = 0; i < appWidgetIds.length; i++)
+        {
+            int widgetId = appWidgetIds[i];
+
+            //    Build the intent to call the service
+            Intent intent = new Intent(context.getApplicationContext(),
+                    RecipeWidgetService.class);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            Timber.d( "method working");
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
-            views.setRemoteAdapter(R.id.appwidget_list,
-                    new Intent(context, RecipeWidgetService.class));
-            appWidgetManager.updateAppWidget(appWidgetId, views);
-        }
-    }
+            views.setRemoteAdapter(R.id.appwidget_list, intent);
+            views.setEmptyView(R.id.appwidget_list, R.id.empty_widget_data);
 
-    public static void updateWidgets(Context context) {
-        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        intent.setComponent(new ComponentName(context, RecipeWidgetProvider.class));
-        context.sendBroadcast(intent);
+            Intent detailIntent = new Intent(context, DetailsActivity.class);
+            PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, detailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setPendingIntentTemplate(R.id.appwidget_list, pIntent);
+
+            appWidgetManager.updateAppWidget(widgetId, views);
+        }
+
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        final String action = intent.getAction();
-        if (action != null && action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            ComponentName componentName = new ComponentName(context, RecipeWidgetProvider.class);
-            appWidgetManager.notifyAppWidgetViewDataChanged(
-                    appWidgetManager.getAppWidgetIds(componentName),
-                    R.id.appwidget_list);
-        }
+    public void onReceive(final Context context, Intent intent) {
         super.onReceive(context, intent);
-    }
 
-    @Override
-    public void onEnabled(Context context) {
-    }
+        if (ACTION_VIEW_DETAILS.equals(intent.getAction()))
+        {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            ComponentName thisAppWidget = new ComponentName(context.getPackageName(), RecipeWidgetProvider.class.getName());
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
 
-    @Override
-    public void onDisabled(Context context) {
+            onUpdate(context, appWidgetManager, appWidgetIds);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.appwidget_list);
+        }
     }
 }
+
 
 

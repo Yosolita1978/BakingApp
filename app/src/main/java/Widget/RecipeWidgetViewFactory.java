@@ -1,7 +1,6 @@
 package Widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
@@ -14,12 +13,14 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.yosola.bakingapp.DetailsActivity;
 import co.yosola.bakingapp.Model.Ingredients;
 import co.yosola.bakingapp.R;
 
 public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context mContext;
-    private List<Ingredients> mIngredientsList;
+    private ArrayList<Ingredients> mIngredientsList;
+
 
     public RecipeWidgetViewFactory(Context context) {
         mContext = context;
@@ -27,12 +28,21 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
 
     @Override
     public void onCreate() {
-        loadData();
+        mIngredientsList = new ArrayList<>();
+        if (DetailsActivity.mIngredientsList.size() != 0) {
+            mIngredientsList = DetailsActivity.mIngredientsList;
+        } else {
+            loadData();
+        }
     }
 
     @Override
     public void onDataSetChanged() {
-        loadData();
+        if (DetailsActivity.mIngredientsList.size() != 0) {
+            mIngredientsList = DetailsActivity.mIngredientsList;;
+        } else {
+            loadData();
+        }
     }
 
     @Override
@@ -52,11 +62,11 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
     public RemoteViews getViewAt(int position) {
         Ingredients ingredient = mIngredientsList.get(position);
 
-        RemoteViews itemView = new RemoteViews(mContext.getPackageName(), R.layout.ingredient_list_item);
+        RemoteViews itemView = new RemoteViews(mContext.getPackageName(), R.layout.widget_ingredient_list);
 
-        itemView.setTextViewText(R.id.ingredient_quantity, ingredient.getQuantity());
-        itemView.setTextViewText(R.id.ingredient_measure, ingredient.getMeasure());
-        itemView.setTextViewText(R.id.ingredient_name, ingredient.getIngredient());
+        itemView.setTextViewText(R.id.widget_ingredient_quantity, ingredient.getQuantity());
+        itemView.setTextViewText(R.id.widget_ingredient_measure, ingredient.getMeasure());
+        itemView.setTextViewText(R.id.widget_ingredient_name, ingredient.getIngredient());
 
         return itemView;
     }
@@ -83,7 +93,6 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
 
     private void loadData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-
         Gson gson = new Gson();
         Type type = new TypeToken<List<Ingredients>>() {}.getType();
         String gsonString = sharedPreferences.getString("IngredientsList_Widget", "");

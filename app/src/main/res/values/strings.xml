@@ -26,7 +26,8 @@
     <string name="add_widget">Add widget</string>
 
     <!-- Widget-->
-    <string name="empty_view">Empty view</string>
+    <string name="add_a_receipe_to_widget">Please go to the App to add a recipe to show on widget</string>
+    <string name="added_to_widget">Added to the Widget</string>
 
 
 </resources>
