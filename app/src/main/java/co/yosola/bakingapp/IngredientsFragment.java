@@ -1,11 +1,6 @@
 package co.yosola.bakingapp;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,15 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
-import Widget.RecipeWidgetProvider;
 import co.yosola.bakingapp.Adapters.IngredientsAdapter;
 import co.yosola.bakingapp.Model.Ingredients;
 import co.yosola.bakingapp.Model.Recipe;
-import co.yosola.bakingapp.Utils.Constants;
 import timber.log.Timber;
 
 
@@ -30,21 +21,18 @@ import timber.log.Timber;
 
 public class IngredientsFragment extends Fragment {
 
+    private static final String KEY_INGREDIENTS_LIST = "ingredients";
     RecyclerView mIngredientRecyclerView;
-
     private TextView ingredientsLabel;
     private ArrayList<Ingredients> ingredientsList;
     private Recipe recipe;
 
-    private static final String KEY_INGREDIENTS_LIST = "ingredients";
-
-    public IngredientsFragment(){
+    public IngredientsFragment() {
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the Ingredients fragment layout
         View rootView = inflater.inflate(R.layout.fragment_ingredients_details, container, false);
 
@@ -55,15 +43,13 @@ public class IngredientsFragment extends Fragment {
         mIngredientRecyclerView = rootView.findViewById(R.id.recyclerview_ingredients);
 
         Bundle bundle = this.getArguments();
-        if (bundle != null)
-        {
+        if (bundle != null) {
             recipe = getArguments().getParcelable("Recipe");
 
             ingredientsList = new ArrayList<>();
             ingredientsList = recipe.getIngredients();
 
-            if (savedInstanceState != null)
-            {
+            if (savedInstanceState != null) {
 
                 ingredientsList = savedInstanceState.getParcelableArrayList(KEY_INGREDIENTS_LIST);
             }
@@ -80,15 +66,13 @@ public class IngredientsFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's state here
         outState.putParcelableArrayList(KEY_INGREDIENTS_LIST, ingredientsList);
         super.onSaveInstanceState(outState);
     }
-
 
 
 }

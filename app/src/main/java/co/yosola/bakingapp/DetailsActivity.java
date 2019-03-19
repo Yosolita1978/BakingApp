@@ -24,11 +24,11 @@ import co.yosola.bakingapp.Model.Steps;
 
 public class DetailsActivity extends AppCompatActivity implements StepsFragment.OnStepClickListener {
 
-    Recipe recipe;
-    private Context context;
-    public boolean isTablet;
     public static ArrayList<Steps> stepsList;
     public static ArrayList<Ingredients> mIngredientsList;
+    public boolean isTablet;
+    Recipe recipe;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +94,7 @@ public class DetailsActivity extends AppCompatActivity implements StepsFragment.
             ExoPlayerFragment expoFragment = new ExoPlayerFragment();
             expoFragment.setArguments(stepsVideoBundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.expovideo_tablet_fragment, expoFragment).commit();
-        }
-        else {
+        } else {
 
             Intent intent = new Intent(DetailsActivity.this, ExoPlayerActivity.class);
             intent.putExtra("StepOnClick", step);
@@ -124,7 +123,7 @@ public class DetailsActivity extends AppCompatActivity implements StepsFragment.
     }
 
     // sending this list of ingredients to the widget
-    public void sendToWidget(){
+    public void sendToWidget() {
 
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();

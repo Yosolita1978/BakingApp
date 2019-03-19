@@ -11,14 +11,42 @@ import java.util.ArrayList;
 
 public class Recipe implements Parcelable {
 
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel source) {
+            return new Recipe(source);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
     private String id;
     private String name;
-
     private String servings;
     private String image;
     private ArrayList<Ingredients> ingredients;
     private ArrayList<Steps> steps;
 
+    public Recipe(String id, String name, ArrayList<Ingredients> ingredients, ArrayList<Steps> steps, String servings, String image) {
+        this.id = id;
+        this.name = name;
+        this.servings = servings;
+
+        this.image = image;
+        this.ingredients = ingredients;
+        this.steps = steps;
+    }
+
+    protected Recipe(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.servings = in.readString();
+        this.image = in.readString();
+        this.ingredients = in.createTypedArrayList(Ingredients.CREATOR);
+        this.steps = in.createTypedArrayList(Steps.CREATOR);
+    }
 
     public ArrayList<Ingredients> getIngredients() {
         return ingredients;
@@ -35,17 +63,6 @@ public class Recipe implements Parcelable {
     public void setSteps(ArrayList<Steps> steps) {
         this.steps = steps;
     }
-
-    public Recipe(String id, String name, ArrayList<Ingredients> ingredients, ArrayList<Steps> steps, String servings, String image) {
-        this.id = id;
-        this.name = name;
-        this.servings = servings;
-
-        this.image = image;
-        this.ingredients = ingredients;
-        this.steps = steps;
-    }
-
 
     public String getId() {
         return id;
@@ -79,7 +96,6 @@ public class Recipe implements Parcelable {
         this.image = image;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -94,25 +110,4 @@ public class Recipe implements Parcelable {
         dest.writeTypedList(this.ingredients);
         dest.writeTypedList(this.steps);
     }
-
-    protected Recipe(Parcel in) {
-        this.id = in.readString();
-        this.name = in.readString();
-        this.servings = in.readString();
-        this.image = in.readString();
-        this.ingredients = in.createTypedArrayList(Ingredients.CREATOR);
-        this.steps = in.createTypedArrayList(Steps.CREATOR);
-    }
-
-    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-        @Override
-        public Recipe createFromParcel(Parcel source) {
-            return new Recipe(source);
-        }
-
-        @Override
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
-        }
-    };
 }

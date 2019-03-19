@@ -12,6 +12,17 @@ import org.json.JSONObject;
 
 public class Steps implements Parcelable {
 
+    public static final Parcelable.Creator<Steps> CREATOR = new Parcelable.Creator<Steps>() {
+        @Override
+        public Steps createFromParcel(Parcel source) {
+            return new Steps(source);
+        }
+
+        @Override
+        public Steps[] newArray(int size) {
+            return new Steps[size];
+        }
+    };
     private String id;
     private String shortDescription;
     private String description;
@@ -38,6 +49,14 @@ public class Steps implements Parcelable {
         this.thumbnailURL = thumbnailURL;
 
 
+    }
+
+    protected Steps(Parcel in) {
+        this.id = in.readString();
+        this.shortDescription = in.readString();
+        this.description = in.readString();
+        this.videoURL = in.readString();
+        this.thumbnailURL = in.readString();
     }
 
     public String getId() {
@@ -80,8 +99,6 @@ public class Steps implements Parcelable {
         this.thumbnailURL = thumbnailURL;
     }
 
-
-
     @Override
     public int describeContents() {
         return 0;
@@ -95,24 +112,4 @@ public class Steps implements Parcelable {
         dest.writeString(this.videoURL);
         dest.writeString(this.thumbnailURL);
     }
-
-    protected Steps(Parcel in) {
-        this.id = in.readString();
-        this.shortDescription = in.readString();
-        this.description = in.readString();
-        this.videoURL = in.readString();
-        this.thumbnailURL = in.readString();
-    }
-
-    public static final Parcelable.Creator<Steps> CREATOR = new Parcelable.Creator<Steps>() {
-        @Override
-        public Steps createFromParcel(Parcel source) {
-            return new Steps(source);
-        }
-
-        @Override
-        public Steps[] newArray(int size) {
-            return new Steps[size];
-        }
-    };
 }

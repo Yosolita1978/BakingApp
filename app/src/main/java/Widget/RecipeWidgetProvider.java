@@ -10,7 +10,6 @@ import android.widget.RemoteViews;
 
 import co.yosola.bakingapp.DetailsActivity;
 import co.yosola.bakingapp.R;
-import timber.log.Timber;
 
 /**
  * Implementation of App Widget functionality.
@@ -30,7 +29,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             Intent intent = new Intent(context.getApplicationContext(),
                     RecipeWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            Timber.d( "method working");
+            //Timber.d( "method working");
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
             views.setRemoteAdapter(R.id.appwidget_list, intent);
             views.setEmptyView(R.id.appwidget_list, R.id.empty_widget_data);

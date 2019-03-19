@@ -17,14 +17,14 @@ import co.yosola.bakingapp.R;
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientsAdapterViewHolder> {
 
-private ArrayList<Ingredients> mIngredientsList;
-private Context mContext;
+    private ArrayList<Ingredients> mIngredientsList;
+    private Context mContext;
 
 
-public IngredientsAdapter(ArrayList<Ingredients> ingredientsList,Context context) {
+    public IngredientsAdapter(ArrayList<Ingredients> ingredientsList, Context context) {
         this.mIngredientsList = ingredientsList;
         this.mContext = context;
-}
+    }
 
     @NonNull
     @Override
@@ -72,16 +72,16 @@ public IngredientsAdapter(ArrayList<Ingredients> ingredientsList,Context context
 
     public class IngredientsAdapterViewHolder extends RecyclerView.ViewHolder {
 
-    TextView nameText;
-    TextView quantityText;
-    TextView measureText;
+        TextView nameText;
+        TextView quantityText;
+        TextView measureText;
 
-    public IngredientsAdapterViewHolder(View itemView) {
-        super(itemView);
-        this.nameText = (TextView) itemView.findViewById(R.id.ingredient_name);
-        this.quantityText = (TextView) itemView.findViewById(R.id.ingredient_quantity);
-        this.measureText= (TextView) itemView.findViewById(R.id.ingredient_measure);
+        public IngredientsAdapterViewHolder(View itemView) {
+            super(itemView);
+            this.nameText = (TextView) itemView.findViewById(R.id.ingredient_name);
+            this.quantityText = (TextView) itemView.findViewById(R.id.ingredient_quantity);
+            this.measureText = (TextView) itemView.findViewById(R.id.ingredient_measure);
+        }
     }
-}
 
 }

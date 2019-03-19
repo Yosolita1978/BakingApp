@@ -35,14 +35,16 @@ import timber.log.Timber;
 
 public class ExoPlayerFragment extends Fragment {
 
+    public static final String KEY_POSITION = "position";
+    public static final String STEP = "StepClicked";
+    public static final String KEY_AUTOPLAY = "autoplay";
     public ArrayList<Steps> stepsArrayList;
+    public int stepIndex;
     Steps stepClicked;
     Recipe recipe;
     SimpleExoPlayer mExoPlayer;
     SimpleExoPlayerView mPlayerView;
     ImageView thumbnail;
-    public int stepIndex;
-    private long mPlayerPosition;
     String videoUrl;
     Uri videoUrl_Parse;
     Uri thumbnailUrl_Parse;
@@ -51,20 +53,15 @@ public class ExoPlayerFragment extends Fragment {
     Button nextButton;
     TextView stepDescription;
     String stepStringDescription;
-    private boolean autoPlay = true;
     boolean isTablet;
+    private long mPlayerPosition;
+    private boolean autoPlay = true;
 
-    public static final String KEY_POSITION = "position";
-    public static final String STEP = "StepClicked";
-    public static final String KEY_AUTOPLAY = "autoplay";
-
-    public ExoPlayerFragment()
-    {
+    public ExoPlayerFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_exoplayervideo, container, false);
         // Bind the views
@@ -154,11 +151,11 @@ public class ExoPlayerFragment extends Fragment {
 
 
     //Helper method to show or not the buttons in the fragment.
-    public void toggleButtons(boolean isTablet){
-        if(isTablet){
+    public void toggleButtons(boolean isTablet) {
+        if (isTablet) {
             previousButton.setVisibility(View.INVISIBLE);
             nextButton.setVisibility(View.INVISIBLE);
-        } else{
+        } else {
             previousButton.setVisibility(View.VISIBLE);
             nextButton.setVisibility(View.VISIBLE);
 
@@ -188,8 +185,8 @@ public class ExoPlayerFragment extends Fragment {
     }
 
     //Helper method to check if there is a url in that specific step
-    public void checkThumbnail(Uri videoUrl){
-        if(videoUrl == null || String.valueOf(videoUrl).isEmpty()){
+    public void checkThumbnail(Uri videoUrl) {
+        if (videoUrl == null || String.valueOf(videoUrl).isEmpty()) {
             mPlayerView.setVisibility(View.INVISIBLE);
             thumbnail.setVisibility(View.VISIBLE);
             thumbnail.setImageDrawable(getResources().getDrawable(R.drawable.nosignal));
@@ -256,8 +253,8 @@ public class ExoPlayerFragment extends Fragment {
             nextButton.setVisibility(View.GONE);
             previousButton.setVisibility(View.GONE);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mPlayerView.getLayoutParams();
-            params.width =  RelativeLayout.LayoutParams.MATCH_PARENT;
-            params.height= RelativeLayout.LayoutParams.MATCH_PARENT;
+            params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
             mPlayerView.setLayoutParams(params);
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -266,15 +263,14 @@ public class ExoPlayerFragment extends Fragment {
             nextButton.setVisibility(View.VISIBLE);
             previousButton.setVisibility(View.VISIBLE);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mPlayerView.getLayoutParams();
-            params.width =  RelativeLayout.LayoutParams.MATCH_PARENT;
-            params.height=600;
+            params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+            params.height = 600;
             mPlayerView.setLayoutParams(params);
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //Save the fragment's state here
         outState.putLong(KEY_POSITION, mPlayerPosition);

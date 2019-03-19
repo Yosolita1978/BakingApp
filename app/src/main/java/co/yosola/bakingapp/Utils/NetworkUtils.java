@@ -103,7 +103,7 @@ public class NetworkUtils {
             String recipeName = recipeJsonObject.getString(RECIPE_NAME);
             String recipeServings = recipeJsonObject.getString((RECIPE_SERVINGS));
             String recipeImage = recipeJsonObject.getString(RECIPE_IMAGE);
-           Timber.d(recipeId + recipeName);
+            Timber.d(recipeId + recipeName);
 
 
             ArrayList<Ingredients> ingredientList = new ArrayList<>();

@@ -50,10 +50,11 @@ public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapt
         mLoadingIndicator = rootView.findViewById(R.id.progress_bar);
         mRecyclerView = rootView.findViewById(R.id.list);
 
-        if(MainActivity.isTablet){
+        if (MainActivity.isTablet) {
             GridLayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
             mRecyclerView.setLayoutManager(mGridLayoutManager);
-            mRecyclerView.setHasFixedSize(true);;
+            mRecyclerView.setHasFixedSize(true);
+            ;
             Timber.d(String.valueOf(MainActivity.isTablet));
         } else {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -66,7 +67,7 @@ public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapt
         mRecipeAdapter = new RecipeAdapter(recipeList, this, getContext());
         mRecyclerView.setAdapter(mRecipeAdapter);
 
-        if(!isOnline()){
+        if (!isOnline()) {
             showErrorMessage();
             mErrorMessageDisplay.setText(R.string.detail_error_message);
         }
@@ -104,8 +105,6 @@ public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapt
 
     @Override
     public void onClick(Recipe recipe) {
-        //Timber.d(String.valueOf(recipe.getName()));
-        //Toast.makeText(getContext(), recipe.getName(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.putExtra("Recipe", recipe);
         startActivity(intent);
@@ -128,8 +127,9 @@ public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapt
             recipeList = null;
 
             if (urls.length == 0) {
-                mUrl = NetworkUtils.buildURl();;
-            } else{
+                mUrl = NetworkUtils.buildURl();
+                ;
+            } else {
                 mUrl = urls[0];
             }
 
@@ -154,7 +154,7 @@ public class MainFragment extends Fragment implements RecipeAdapter.RecipesAdapt
                 //Timber.d(String.valueOf(recipes.size()));
             } else {
                 showErrorMessage();
-                Toast.makeText(getContext(), "Failed to fetch data!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), R.string.failed_message, Toast.LENGTH_LONG).show();
             }
         }
     }

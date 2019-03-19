@@ -39,7 +39,8 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public void onDataSetChanged() {
         if (DetailsActivity.mIngredientsList.size() != 0) {
-            mIngredientsList = DetailsActivity.mIngredientsList;;
+            mIngredientsList = DetailsActivity.mIngredientsList;
+            ;
         } else {
             loadData();
         }
@@ -94,7 +95,8 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
     private void loadData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Ingredients>>() {}.getType();
+        Type type = new TypeToken<List<Ingredients>>() {
+        }.getType();
         String gsonString = sharedPreferences.getString("IngredientsList_Widget", "");
         mIngredientsList = gson.fromJson(gsonString, type);
     }

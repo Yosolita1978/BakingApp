@@ -5,14 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import co.yosola.bakingapp.Model.Recipe;
 import co.yosola.bakingapp.Model.Steps;
 import co.yosola.bakingapp.R;
 
@@ -26,11 +22,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
     //I need this to set the ListitemClickLister;
     private StepsAdapterOnClickHandler mStepsAdapterClickHandler;
 
-
-    public interface StepsAdapterOnClickHandler
-    {
-        void onClick(Steps steps);
-    }
 
     public StepsAdapter(ArrayList<Steps> steps, StepsAdapterOnClickHandler stepsClickHandler) {
         this.mStepsList = steps;
@@ -79,13 +70,16 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
         notifyDataSetChanged();
     }
 
-
     public void clear() {
         mStepsList.clear();
     }
 
 
-    public class StepsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public interface StepsAdapterOnClickHandler {
+        void onClick(Steps steps);
+    }
+
+    public class StepsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nameTextView;
         TextView numberTextView;
