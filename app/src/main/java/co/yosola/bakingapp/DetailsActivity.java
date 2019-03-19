@@ -3,15 +3,12 @@ package co.yosola.bakingapp;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -24,8 +21,6 @@ import Widget.RecipeWidgetProvider;
 import co.yosola.bakingapp.Model.Ingredients;
 import co.yosola.bakingapp.Model.Recipe;
 import co.yosola.bakingapp.Model.Steps;
-import co.yosola.bakingapp.Utils.Constants;
-import timber.log.Timber;
 
 public class DetailsActivity extends AppCompatActivity implements StepsFragment.OnStepClickListener {
 

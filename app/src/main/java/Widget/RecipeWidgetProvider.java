@@ -6,15 +6,10 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 
 import co.yosola.bakingapp.DetailsActivity;
-import co.yosola.bakingapp.MainActivity;
 import co.yosola.bakingapp.R;
-import co.yosola.bakingapp.Utils.Constants;
 import timber.log.Timber;
 
 /**
@@ -28,8 +23,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int i = 0; i < appWidgetIds.length; i++)
-        {
+        for (int i = 0; i < appWidgetIds.length; i++) {
             int widgetId = appWidgetIds[i];
 
             //    Build the intent to call the service
@@ -55,12 +49,10 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     public void onReceive(final Context context, Intent intent) {
         super.onReceive(context, intent);
 
-        if (ACTION_VIEW_DETAILS.equals(intent.getAction()))
-        {
+        if (ACTION_VIEW_DETAILS.equals(intent.getAction())) {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), RecipeWidgetProvider.class.getName());
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
-
             onUpdate(context, appWidgetManager, appWidgetIds);
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.appwidget_list);
         }
