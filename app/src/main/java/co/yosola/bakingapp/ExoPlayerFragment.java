@@ -65,16 +65,8 @@ public class ExoPlayerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.fragment_exoplayervideo, container, false);
-        // Bind the views
-        mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.playerview);
-        thumbnail = (ImageView) rootView.findViewById(R.id.thumbnail);
-        previousButton = (Button) rootView.findViewById(R.id.previous_button);
-        nextButton = (Button) rootView.findViewById(R.id.next_button);
-        stepDescription = (TextView) rootView.findViewById(R.id.step_description);
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             Timber.d("savedinstance state");
             stepClicked = savedInstanceState.getParcelable(STEP);
@@ -84,6 +76,19 @@ public class ExoPlayerFragment extends Fragment {
             recipe = savedInstanceState.getParcelable(RECIPE);
 
         }
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_exoplayervideo, container, false);
+        // Bind the views
+        mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.playerview);
+        thumbnail = (ImageView) rootView.findViewById(R.id.thumbnail);
+        previousButton = (Button) rootView.findViewById(R.id.previous_button);
+        nextButton = (Button) rootView.findViewById(R.id.next_button);
+        stepDescription = (TextView) rootView.findViewById(R.id.step_description);
 
         Timber.d("First call this fragment");
         Bundle bundle = this.getArguments();
@@ -157,7 +162,6 @@ public class ExoPlayerFragment extends Fragment {
                 });
             }
         }
-
 
         return rootView;
     }
