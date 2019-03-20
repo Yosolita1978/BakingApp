@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -38,6 +39,9 @@ public class ExoPlayerFragment extends Fragment {
     public static final String KEY_POSITION = "position";
     public static final String STEP = "StepClicked";
     public static final String KEY_AUTOPLAY = "autoplay";
+    public static final String IS_TABLET = "isTablet";
+    public static final String RECIPE = "Recipe";
+
     public ArrayList<Steps> stepsArrayList;
     public int stepIndex;
     Steps stepClicked;
@@ -55,7 +59,7 @@ public class ExoPlayerFragment extends Fragment {
     String stepStringDescription;
     boolean isTablet;
     private long mPlayerPosition;
-    private boolean autoPlay = true;
+    private boolean playWhenReady;
 
     public ExoPlayerFragment() {
     }
@@ -71,6 +75,17 @@ public class ExoPlayerFragment extends Fragment {
         nextButton = (Button) rootView.findViewById(R.id.next_button);
         stepDescription = (TextView) rootView.findViewById(R.id.step_description);
 
+        if (savedInstanceState != null) {
+            Timber.d("savedinstance state");
+            stepClicked = savedInstanceState.getParcelable(STEP);
+            mPlayerPosition = savedInstanceState.getLong(KEY_POSITION);
+            playWhenReady = savedInstanceState.getBoolean(KEY_AUTOPLAY, true);
+            isTablet = savedInstanceState.getBoolean(IS_TABLET);
+            recipe = savedInstanceState.getParcelable(RECIPE);
+
+        }
+
+        Timber.d("First call this fragment");
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
@@ -78,15 +93,15 @@ public class ExoPlayerFragment extends Fragment {
             if (stepClicked != null) {
 
                 stepIndex = Integer.valueOf(stepClicked.getId());
-                isTablet = getArguments().getBoolean("isTablet");
-                recipe = getArguments().getParcelable("Recipe");
+                isTablet = getArguments().getBoolean(IS_TABLET);
+                recipe = getArguments().getParcelable(RECIPE);
                 stepsArrayList = recipe.getSteps();
 
                 videoUrl = stepClicked.getVideoURL();
 
 
                 videoUrl_Parse = Uri.parse(videoUrl);
-                Timber.d(videoUrl_Parse + "");
+                //Timber.d(videoUrl_Parse + "");
 
                 thumbnailUrl = stepClicked.getThumbnailURL();
                 thumbnailUrl_Parse = Uri.parse(thumbnailUrl);
@@ -109,11 +124,13 @@ public class ExoPlayerFragment extends Fragment {
                             //Extract the video uri from the current step
                             videoUrl = stepClicked.getVideoURL();
                             videoUrl_Parse = Uri.parse(videoUrl);
-                            Timber.d(videoUrl_Parse + "");
+                            //Timber.d(videoUrl_Parse + "");
                             mExoPlayer.release();
                             mExoPlayer = null;
                             //Call initializePlayer() by passing the new video uri
                             initializePlayer(videoUrl_Parse);
+                        } else {
+                            Toast.makeText(getContext(), R.string.no_previous, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -128,20 +145,16 @@ public class ExoPlayerFragment extends Fragment {
                             //Extract the video uri from the current step
                             videoUrl = stepClicked.getVideoURL();
                             videoUrl_Parse = Uri.parse(videoUrl);
-                            Timber.d(videoUrl_Parse + "");
+                            //Timber.d(videoUrl_Parse + "");
                             mExoPlayer.release();
                             mExoPlayer = null;
                             //Call initializePlayer() by passing the new video uri
                             initializePlayer(videoUrl_Parse);
+                        } else {
+                            Toast.makeText(getContext(), R.string.no_next, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-            }
-
-            if (savedInstanceState != null) {
-                stepClicked = savedInstanceState.getParcelable(STEP);
-                mPlayerPosition = savedInstanceState.getLong(KEY_POSITION);
-                autoPlay = savedInstanceState.getBoolean(KEY_AUTOPLAY, true);
             }
         }
 
@@ -180,7 +193,8 @@ public class ExoPlayerFragment extends Fragment {
             if (mPlayerPosition != C.TIME_UNSET) {
                 mExoPlayer.seekTo(mPlayerPosition);
             }
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(playWhenReady);
+
         }
     }
 
@@ -210,6 +224,7 @@ public class ExoPlayerFragment extends Fragment {
         super.onPause();
         if (mExoPlayer != null) {
             mPlayerPosition = mExoPlayer.getCurrentPosition();
+            playWhenReady = mExoPlayer.getPlayWhenReady();
         }
         if (Util.SDK_INT <= 23) {
             releasePlayer();
@@ -221,6 +236,7 @@ public class ExoPlayerFragment extends Fragment {
         super.onResume();
         if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
             mPlayerPosition = mExoPlayer.getCurrentPosition();
+            playWhenReady = mExoPlayer.getPlayWhenReady();
         }
     }
 
@@ -275,7 +291,9 @@ public class ExoPlayerFragment extends Fragment {
         //Save the fragment's state here
         outState.putLong(KEY_POSITION, mPlayerPosition);
         outState.putParcelable(STEP, stepClicked);
-        outState.putBoolean(KEY_AUTOPLAY, autoPlay);
+        outState.putBoolean(KEY_AUTOPLAY, playWhenReady);
+        outState.putBoolean(IS_TABLET, isTablet);
+        outState.putParcelable(RECIPE, recipe);
         super.onSaveInstanceState(outState);
     }
 

@@ -25,6 +25,8 @@
     <string name="next_step">Next</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="no_previous">No previous step</string>
+    <string name="no_next">No next step</string>
 
     <!-- Widget-->
     <string name="add_a_receipe_to_widget">Please go to the App to add a recipe to show on widget</string>
